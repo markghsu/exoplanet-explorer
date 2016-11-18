@@ -36,22 +36,27 @@ Instructions:
     /*
     This code needs to get wrapped in a Promise!
      */
-    var req = new XMLHttpRequest();
+     return new Promise(function(resolve,reject){
+      var req = new XMLHttpRequest();
     req.open('GET', url);
     req.onload = function() {
       if (req.status === 200) {
         // It worked!
         // You'll want to resolve with the data from req.response
+        resolve(req.response);
       } else {
+        reject(Error(req.statusText));
         // It failed :(
         // Be nice and reject with req.statusText
       }
     };
     req.onerror = function() {
+      reject(Error('Network Error'));
       // It failed :(
       // Pass a 'Network Error' to reject
     };
     req.send();
+     });
   }
 
   window.addEventListener('WebComponentsReady', function() {
@@ -61,6 +66,9 @@ Instructions:
     You'll need to add a .then and a .catch. Pass the response to addSearchHeader on resolve or
     pass 'unknown' to addSearchHeader if it rejects.
      */
-    // get('../data/earth-like-results.json')
+    get('../data/earth-like-results.json').then(addSearchHeader).catch(function(error){
+      addSearchHeader("Unknown");
+      console.log(error);
+    });
   });
 })(document);
