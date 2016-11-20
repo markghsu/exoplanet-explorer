@@ -120,7 +120,7 @@ proper order even if all the requests haven't finished.
 
           planets.forEach(function(request){//request is the previous promise (getJSON) for each individual request
             previousPlanets = previousPlanets.then(function(response){//add to our chain
-              return request.then(createPlanetThumb);//add the resolution of 1.) our request + thenned draw to our chain
+              return request.then(createPlanetThumbPromise);//add the resolution of 1.) our request + thenned draw to our chain
               //this is better than my solution because the create planet thumb is a promise
               // as such, the next element won't start drawing until the previous one is DONE drawing
               //whereas with my solution, it would start drawing as soon as the previous element has Started drawing?
